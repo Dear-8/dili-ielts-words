@@ -40,7 +40,7 @@ let currentIndex = 0;
 // 语音朗读
 function speak(text){
     const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en‑US';
+    utter.lang = 'en-US';
     speechSynthesis.speak(utter);
 }
 
@@ -58,12 +58,13 @@ function renderWord(){
     document.getElementById('indexInfo').innerText = `${currentIndex+1} / ${wordList.length}`;
 }
 
+//点击单词播放发音
 document.getElementById('wordText').addEventListener('click',()=>{
     speak(wordList[currentIndex].word);
 });
 
 document.getElementById('nextBtn').addEventListener('click',()=>{
-    if(currentIndex < wordList.length‑1){
+    if(currentIndex < wordList.length-1){
         currentIndex++;
         renderWord();
     }
