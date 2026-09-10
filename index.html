@@ -1,27 +1,54 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh‑CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>雅思单词本</title>
+    <meta charset="UTF‑8">
+    <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
+    <title>迪莉‑雅思单词小站</title>
     <style>
-        *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-        body{background:#f7f9fc;padding:24px;min-height:100vh}
-        .container{max-width:600px;margin:0 auto;background:#fff;padding:32px 24px;border-radius:16px;box-shadow:0 2px 12px #00000015}
-        .word-card{text-align:center;margin-bottom:32px}
-        .word{font-size:40px;font-weight:700;margin-bottom:12px;color:#1f2937;cursor:pointer}
-        .phonetic{font-size:20px;color:#4b5563;margin-bottom:16px}
-        .meaning{font-size:22px;color:#111827;margin-bottom:24px;line-height:1.6}
-        .btns{display:flex;gap:12px;justify-content:center}
-        button{padding:12px 24px;border:none;border-radius:10px;font-size:16px;cursor:pointer}
-        .prev{background:#e5e7eb;color:#111}
-        .next{background:#2563eb;color:#fff}
-        .info{margin-top:24px;text-align:center;color:#6b7280;font-size:14px}
+*{margin:0;padding:0;box‑sizing:border‑box;font‑family:"Microsoft Yahei",sans‑serif;}
+body{
+    min‑height:100vh;
+    background‑color:#faf0f8;
+    background‑image:url("https://picsum.photos/id/1027/1920/1080");
+    background‑size:cover;
+    background‑position:center;
+    background‑attachment:fixed;
+    color:#333;
+}
+.container{
+    max‑width:620px;
+    margin:60px auto;
+    background:rgba(255,255,255,0.92);
+    padding:40px 28px;
+    border‑radius:20px;
+    box‑shadow:0 6px 24px rgba(0,0,0,0.12);
+}
+.word‑card{text‑align:center;margin‑bottom:36px;}
+.word{
+    font‑size:44px;
+    font‑weight:bold;
+    margin‑bottom:12px;
+    color:#1f2937;
+    cursor:pointer;
+}
+.phonetic{font‑size:22px;color:#4b5563;margin‑bottom:16px;}
+.meaning{font‑size:24px;line‑height:1.7;margin‑bottom:28px;color:#111827;}
+.btns{display:flex;gap:14px;justify‑content:center;}
+button{
+    padding:13px 28px;
+    border:none;
+    border‑radius:12px;
+    font‑size:17px;
+    cursor:pointer;
+}
+.prev{background:#e5e7eb;color:#111;}
+.next{background:#2563eb;color:#fff;}
+.info{margin‑top:26px;text‑align:center;color:#6b7280;font‑size:15px;}
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="word-card">
+    <div class="word‑card">
         <div class="word" id="wordText"></div>
         <div class="phonetic" id="phonetic"></div>
         <div class="meaning" id="meaning"></div>
@@ -34,7 +61,7 @@
 </div>
 
 <script>
-// 全部单词直接内置在这里，不再读取外部json
+// ========== 全部单词直接写在这里 ==========
 let wordList = [
 {"word":"abandon","phonetic":"/əˈbændən/","meaning":"v.抛弃，放弃"},
 {"word":"ability","phonetic":"/əˈbɪləti/","meaning":"n.能力；才能"},
@@ -47,12 +74,13 @@ let wordList = [
 {"word":"abroad","phonetic":"/əˈbrɔːd/","meaning":"adv.在国外；到海外"},
 {"word":"abrupt","phonetic":"/əˈbrʌpt/","meaning":"adj.突然的；唐突的"}
 ];
+
 let currentIndex = 0;
 
-// 语音朗读
+// 朗读单词
 function speak(text){
     const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-US';
+    utter.lang = 'en‑US';
     speechSynthesis.speak(utter);
 }
 
@@ -64,13 +92,13 @@ function renderWord(){
     document.getElementById('indexInfo').innerText = `${currentIndex+1} / ${wordList.length}`;
 }
 
-//点击单词播放发音
+// 点击单词朗读
 document.getElementById('wordText').addEventListener('click',()=>{
     speak(wordList[currentIndex].word);
 });
 
 document.getElementById('nextBtn').addEventListener('click',()=>{
-    if(currentIndex < wordList.length-1){
+    if(currentIndex < wordList.length‑1){
         currentIndex++;
         renderWord();
     }
@@ -87,4 +115,5 @@ renderWord();
 </script>
 </body>
 </html>
+
 
