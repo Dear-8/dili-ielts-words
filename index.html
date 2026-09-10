@@ -1,119 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh‑CN">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF‑8">
-    <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
-    <title>迪莉‑雅思单词小站</title>
-    <style>
-*{margin:0;padding:0;box‑sizing:border‑box;font‑family:"Microsoft Yahei",sans‑serif;}
-body{
-    min‑height:100vh;
-    background‑color:#faf0f8;
-    background‑image:url("https://picsum.photos/id/1027/1920/1080");
-    background‑size:cover;
-    background‑position:center;
-    background‑attachment:fixed;
-    color:#333;
-}
-.container{
-    max‑width:620px;
-    margin:60px auto;
-    background:rgba(255,255,255,0.92);
-    padding:40px 28px;
-    border‑radius:20px;
-    box‑shadow:0 6px 24px rgba(0,0,0,0.12);
-}
-.word‑card{text‑align:center;margin‑bottom:36px;}
-.word{
-    font‑size:44px;
-    font‑weight:bold;
-    margin‑bottom:12px;
-    color:#1f2937;
-    cursor:pointer;
-}
-.phonetic{font‑size:22px;color:#4b5563;margin‑bottom:16px;}
-.meaning{font‑size:24px;line‑height:1.7;margin‑bottom:28px;color:#111827;}
-.btns{display:flex;gap:14px;justify‑content:center;}
-button{
-    padding:13px 28px;
-    border:none;
-    border‑radius:12px;
-    font‑size:17px;
-    cursor:pointer;
-}
-.prev{background:#e5e7eb;color:#111;}
-.next{background:#2563eb;color:#fff;}
-.info{margin‑top:26px;text‑align:center;color:#6b7280;font‑size:15px;}
-    </style>
+<meta charset="UTF-8">
+<title>测试单词本</title>
+<style>
+body{background:#f8f9fa;padding:40px;font-size:24px;text-align:center;}
+</style>
 </head>
 <body>
-<div class="container">
-    <div class="word‑card">
-        <div class="word" id="wordText"></div>
-        <div class="phonetic" id="phonetic"></div>
-        <div class="meaning" id="meaning"></div>
-    </div>
-    <div class="btns">
-        <button class="prev" id="prevBtn">上一个</button>
-        <button class="next" id="nextBtn">下一个</button>
-    </div>
-    <div class="info" id="indexInfo"></div>
-</div>
-
+<div>测试页面成功！</div>
+<div id="word"></div>
+<button onclick="next()">下一个</button>
 <script>
-// ========== 全部单词直接写在这里 ==========
-let wordList = [
-{"word":"abandon","phonetic":"/əˈbændən/","meaning":"v.抛弃，放弃"},
-{"word":"ability","phonetic":"/əˈbɪləti/","meaning":"n.能力；才能"},
-{"word":"able","phonetic":"/ˈeɪbl/","meaning":"adj.能够的；有能力的"},
-{"word":"abnormal","phonetic":"/æbˈnɔːml/","meaning":"adj.反常的，异常的"},
-{"word":"aboard","phonetic":"/əˈbɔːd/","meaning":"adv./prep.在船/飞机上；上船"},
-{"word":"abolish","phonetic":"/əˈbɒlɪʃ/","meaning":"v.废除，废止"},
-{"word":"about","phonetic":"/əˈbaʊt/","meaning":"prep.关于；大约"},
-{"word":"above","phonetic":"/əˈbʌv/","meaning":"prep.在…上面；超过"},
-{"word":"abroad","phonetic":"/əˈbrɔːd/","meaning":"adv.在国外；到海外"},
-{"word":"abrupt","phonetic":"/əˈbrʌpt/","meaning":"adj.突然的；唐突的"}
+let list = [
+{"word":"apple","meaning":"苹果"},
+{"word":"banana","meaning":"香蕉"},
+{"word":"cat","meaning":"猫"},
+{"word":"dog","meaning":"狗"},
+{"word":"egg","meaning":"鸡蛋"}
 ];
-
-let currentIndex = 0;
-
-// 朗读单词
-function speak(text){
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en‑US';
-    speechSynthesis.speak(utter);
+let idx=0;
+function show(){
+document.getElementById("word").innerText = list[idx].word + " " + list[idx].meaning;
 }
-
-function renderWord(){
-    const item = wordList[currentIndex];
-    document.getElementById('wordText').innerText = item.word;
-    document.getElementById('phonetic').innerText = item.phonetic;
-    document.getElementById('meaning').innerText = item.meaning;
-    document.getElementById('indexInfo').innerText = `${currentIndex+1} / ${wordList.length}`;
+function next(){
+idx=(idx+1)%list.length;
+show();
 }
-
-// 点击单词朗读
-document.getElementById('wordText').addEventListener('click',()=>{
-    speak(wordList[currentIndex].word);
-});
-
-document.getElementById('nextBtn').addEventListener('click',()=>{
-    if(currentIndex < wordList.length‑1){
-        currentIndex++;
-        renderWord();
-    }
-});
-
-document.getElementById('prevBtn').addEventListener('click',()=>{
-    if(currentIndex > 0){
-        currentIndex--;
-        renderWord();
-    }
-});
-
-renderWord();
+show();
 </script>
 </body>
 </html>
-
 
