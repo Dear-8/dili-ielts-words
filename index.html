@@ -3,193 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>迪丽热巴｜追星背单词小站</title>
+    <title>雅思单词本</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif;}
-        body{
-            min-height:100vh;
-            background:#faf0f8;
-            background-image:url("https://picsum.photos/id/1027/1920/1080");
-            background-size:cover;
-            background-position:center;
-            background-attachment:fixed;
-            color:#333;
-        }
-        .container{
-            max-width:700px;
-            margin:0 auto;
-            padding:30px 20px;
-        }
-        .card{
-            background:rgba(255,255,255,0.93);
-            border-radius:18px;
-            padding:34px 24px;
-            box-shadow:0 8px 26px rgba(180,80,160,0.15);
-            margin-bottom:22px;
-        }
-        h1{text-align:center;margin-bottom:26px;color:#b84894;font-size:28px;}
-        .word-box{
-            text-align:center;
-            padding:22px 10px;
-        }
-        .word{font-size:38px;font-weight:bold;margin-bottom:12px;color:#9c3b88;}
-        .phonetic{font-size:18px;color:#777;margin-bottom:18px;}
-        .meaning{font-size:21px;margin-bottom:18px;min-height:42px;}
-        .sentence{
-            font-size:16px;color:#444;
-            background:#f6e8f3;
-            padding:14px 18px;
-            border-radius:12px;
-            margin-bottom:26px;
-            line-height:1.6;
-        }
-        .btn-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-        button{
-            padding:11px 22px;
-            border:none;border-radius:12px;
-            font-size:16px;cursor:pointer;
-        }
-        .btn-next{background:#b354a8;color:white;}
-        .btn-know{background:#42a870;color:white;}
-        .btn-unknow{background:#e05478;color:white;}
-        .stat{
-            display:flex;justify-content:space-between;
-            font-size:15px;color:#666;margin-top:12px;
-        }
-        .tip{text-align:center;color:#a84792;margin-top:10px;font-size:14px;}
-        .setting-wrap{margin-top:18px;}
-        input{padding:9px;border-radius:8px;border:1px solid #ddd;width:100%;margin:10px 0;}
+        *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
+        body{background:#f7f9fc;padding:24px;min-height:100vh}
+        .container{max-width:600px;margin:0 auto;background:#fff;padding:32px 24px;border-radius:16px;box-shadow:0 2px 12px #00000015}
+        .word-card{text-align:center;margin-bottom:32px}
+        .word{font-size:40px;font-weight:700;margin-bottom:12px;color:#1f2937;cursor:pointer}
+        .phonetic{font-size:20px;color:#4b5563;margin-bottom:16px}
+        .meaning{font-size:22px;color:#111827;margin-bottom:24px;line-height:1.6}
+        .btns{display:flex;gap:12px;justify-content:center}
+        button{padding:12px 24px;border:none;border-radius:10px;font-size:16px;cursor:pointer}
+        .prev{background:#e5e7eb;color:#111}
+        .next{background:#2563eb;color:#fff}
+        .info{margin-top:24px;text-align:center;color:#6b7280;font-size:14px}
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>✨迪丽热巴·追星背单词✨</h1>
-    <div class="card">
-        <div class="word-box">
-            <div class="word" id="word">persevere</div>
-            <div class="phonetic" id="phonetic">/ˌpɜːsəˈvɪə(r)/</div>
-            <div class="meaning" id="meaning">v. 坚持不懈，持之以恒</div>
-            <div class="sentence" id="sentence">She perseveres in pursuing her acting dream.
-（她坚持不懈追逐自己的表演梦想。）</div>
-        </div>
-        <div class="btn-group">
-            <button class="btn-know" onclick="markKnow()">✅ 记住了</button>
-            <button class="btn-unknow" onclick="markUnknow()">❌ 没记住</button>
-            <button class="btn-next" onclick="nextWord()">下一个单词</button>
-        </div>
-        <div class="stat">
-            <span>今日学习：<span id="todayNum">0</span>个</span>
-            <span>生词收藏：<span id="unknowNum">0</span>个</span>
-        </div>
-        <div class="tip">💖 跟着热巴的力量背单词，每天进步一点点</div>
+    <div class="word-card">
+        <div class="word" id="wordText"></div>
+        <div class="phonetic" id="phonetic"></div>
+        <div class="meaning" id="meaning"></div>
     </div>
-
-    <div class="card setting-wrap">
-        <h3>💌自定义追星例句</h3>
-        <p>输入和迪丽热巴相关英文句子，存入单词本</p >
-        <input type="text" id="customSentence" placeholder="例：Her performance is brilliant.">
-        <button onclick="addCustom()">添加例句</button>
+    <div class="btns">
+        <button class="prev" id="prevBtn">上一个</button>
+        <button class="next" id="nextBtn">下一个</button>
     </div>
+    <div class="info" id="indexInfo"></div>
 </div>
 
 <script>
-// 迪丽热巴主题单词库，全部例句贴合人物，可自行新增
-const wordList = [
-    {
-        word:"persevere",
-        phonetic:"/ˌpɜːsəˈvɪə(r)/",
-        meaning:"v. 坚持不懈，持之以恒",
-        sentence:"She perseveres in pursuing her acting dream.\n（她坚持不懈追逐自己的表演梦想。）"
-    },
-    {
-        word:"brilliant",
-        phonetic:"/ˈbrɪliənt/",
-        meaning:"adj. 杰出的；耀眼的；精彩的",
-        sentence:"She gave a brilliant performance on the stage.\n（她在舞台上献上一场精彩的演出。）"
-    },
-    {
-        word:"elegant",
-        phonetic:"/ˈelɪɡənt/",
-        meaning:"adj. 优雅的，高雅的",
-        sentence:"She always looks elegant in every occasion.\n（她在各个场合都尽显优雅。）"
-    },
-    {
-        word:"charming",
-        phonetic:"/ˈtʃɑːmɪŋ/",
-        meaning:"adj. 迷人的，富有魅力的",
-        sentence:"Her charming smile touches countless fans.\n（她迷人的笑容打动无数粉丝。）"
-    },
-    {
-        word:"glorious",
-        phonetic:"/ˈɡlɔːriəs/",
-        meaning:"adj. 辉煌的；绚烂的",
-        sentence:"She creates glorious moments with her acting talent.\n（她用表演天赋创造绚烂时刻。）"
-    },
-    {
-        word:"brave",
-        phonetic:"/breɪv/",
-        meaning:"adj. 勇敢的",
-        sentence:"Thank you for making me brave.\n（谢谢你让我变得勇敢。）——热巴语录"
-    },
-    {
-        word:"devote",
-        phonetic:"/dɪˈvəʊt/",
-        meaning:"v. 致力于，奉献",
-        sentence:"She devotes herself to every role she plays.\n（她全身心投入饰演的每一个角色。）"
-    },
-    {
-        word:"sincere",
-        phonetic:"/sɪnˈsɪə(r)/",
-        meaning:"adj. 真诚的",
-        sentence:"Her sincere attitude wins wide respect.\n（她真诚的态度收获广泛的尊重。）"
-    }
-];
-
+let wordList = [];
 let currentIndex = 0;
-let todayCount = 0;
-let unknowList = [];
 
-//渲染单词
-function render(){
+// 语音朗读
+function speak(text){
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en‑US';
+    speechSynthesis.speak(utter);
+}
+
+async function loadWords(){
+    const res = await fetch('words.json');
+    wordList = await res.json();
+    renderWord();
+}
+
+function renderWord(){
     const item = wordList[currentIndex];
-    document.getElementById('word').innerText = item.word;
+    document.getElementById('wordText').innerText = item.word;
     document.getElementById('phonetic').innerText = item.phonetic;
     document.getElementById('meaning').innerText = item.meaning;
-    document.getElementById('sentence').innerText = item.sentence;
-    document.getElementById('todayNum').innerText = todayCount;
-    document.getElementById('unknowNum').innerText = unknowList.length;
+    document.getElementById('indexInfo').innerText = `${currentIndex+1} / ${wordList.length}`;
 }
 
-function nextWord(){
-    currentIndex = (currentIndex+1) % wordList.length;
-    todayCount++;
-    render();
-}
+document.getElementById('wordText').addEventListener('click',()=>{
+    speak(wordList[currentIndex].word);
+});
 
-function markKnow(){
-    alert("太棒啦！这个单词已经掌握👍");
-    nextWord();
-}
-
-function markUnknow(){
-    unknowList.push(wordList[currentIndex]);
-    alert("已加入生词本，后续重点复习📝");
-    nextWord();
-}
-
-//自定义例句
-function addCustom(){
-    const s = document.getElementById("customSentence").value.trim();
-    if(s){
-        alert("✅自定义例句添加成功！");
-        document.getElementById("customSentence").value="";
-    }else{
-        alert("请输入句子内容");
+document.getElementById('nextBtn').addEventListener('click',()=>{
+    if(currentIndex < wordList.length‑1){
+        currentIndex++;
+        renderWord();
     }
-}
+});
 
-//页面加载初始化
-render();
+document.getElementById('prevBtn').addEventListener('click',()=>{
+    if(currentIndex > 0){
+        currentIndex--;
+        renderWord();
+    }
+});
+
+loadWords();
 </script>
 </body>
 </html>
